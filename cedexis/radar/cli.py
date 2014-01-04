@@ -1,6 +1,5 @@
-#!/usr/bin/env python
 """
-Run a standard Radar session.
+Run a Radar session.
 """
 
 import argparse
@@ -8,23 +7,19 @@ import sys
 import os
 import logging
 import logging.config
-import json
+
+try:
+    FileNotFoundError()
+    from cedexis.radar.python3.cli import read_config as read_config_ex
+except:
+    from cedexis.radar.python2.cli import read_config as read_config_ex
 
 logger = logging.getLogger(__name__)
 
-def update_python_path():
-    root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    if not root_dir in sys.path:
-        sys.path.insert(1, root_dir)
-
-try:
-    import cedexis.radar
-except ImportError:
-    update_python_path()
-    import cedexis.radar
+import cedexis.radar
 
 def read_config(config_file_path):
-    result = {
+    default_config = {
         'logging': {
             'version': 1,
             'disable_existing_loggers': False,
@@ -46,16 +41,9 @@ def read_config(config_file_path):
             }
         }
     }
+    return read_config_ex(config_file_path, default_config)
 
-    try:
-        with open(config_file_path) as fp:
-            result = json.load(fp)
-    except TypeError:
-        pass
-
-    return result
-
-if __name__ == '__main__':
+def main():
     print(sys.version)
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -105,12 +93,15 @@ if __name__ == '__main__':
 
     parser.add_argument(
         '--config-file',
+        '-f',
+        nargs='?',
+        const='',
     )
 
     args = parser.parse_args()
 
     env_config_file = os.getenv('PYTHON_RADAR_CONFIG')
-    config_file_path = os.path.expanduser(env_config_file if args.config_file is None else env_config_file)
+    config_file_path = os.path.expanduser(env_config_file if args.config_file is None else args.config_file)
     config = read_config(config_file_path)
 
     # Setup logging
