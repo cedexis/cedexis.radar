@@ -1,5 +1,17 @@
+=======
 Changes
 =======
+
+0.1.1
+-----
+
+**project**
+
+- Update README.rst
+
+**cedexis-radar-cli**
+
+- CEDEXIS_RADAR_CONFIG environment variable instead of PYTHON_RADAR_CONFIG
 
 0.1.0-3
 -------

@@ -66,10 +66,7 @@ def main():
         '--api-key',
         '-k',
         default='sandbox',
-        help= \
-            'Your PyRadar API key, available in the Cedexis Portal. This is \
-            optional, but if omitted, measurements will not affect Openmix \
-            scores or charts',
+        help='reserved',
     )
 
     parser.add_argument(
@@ -100,7 +97,7 @@ def main():
 
     args = parser.parse_args()
 
-    env_config_file = os.getenv('PYTHON_RADAR_CONFIG')
+    env_config_file = os.getenv('CEDEXIS_RADAR_CONFIG')
     config_file_path = os.path.expanduser(env_config_file if args.config_file is None else args.config_file)
     config = read_config(config_file_path)
 

@@ -72,6 +72,7 @@ setup_kwargs = {
         'load balancing',
         'availability',
         'rtt',
+        'mobile',
     ],
     'url': 'https://github.com/cedexis/python-radar',
     'author': 'Jacob Wan',
