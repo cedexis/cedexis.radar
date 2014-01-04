@@ -35,6 +35,11 @@ def read_file(file_path):
         except AttributeError:
             return content.strip()
 
+long_description = '\n\n'.join([
+    read_file('README.rst'),
+    read_file('CHANGES.rst'),
+])
+
 # See http://docs.python.org/3.3/distutils/apiref.html#module-distutils.core
 # for help with setup keyword arguments
 setup_kwargs = {
@@ -42,10 +47,7 @@ setup_kwargs = {
     'name': 'cedexis.radar',
     'version': read_version(),
     'description': 'Cedexis Radar client library',
-    'long_description': '\n\n'.join([
-        read_file('README.rst'),
-        read_file('CHANGES.rst'),
-    ]),
+    'long_description': long_description,
     'classifiers': [
         'Development Status :: 3 - Alpha',
         'Environment :: Console',

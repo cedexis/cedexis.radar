@@ -1,6 +1,12 @@
-=======
 Changes
 =======
+
+0.1.1-1
+-------
+
+**project**
+
+- CHANGES.rst markup must be consistent with README.rst
 
 0.1.1
 -----
