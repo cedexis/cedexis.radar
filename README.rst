@@ -148,6 +148,21 @@ environment variable is not set, or if you pass the --config-file/-f argument
 with no value, the script uses default settings.  The default settings produce
 minimal logging to the screen and no file logging.
 
+Unit Tests
+==========
+
+It's easy to run the unit test suite using `nose`_.  Here's an example for
+Python 3 on Ubuntu 13.10.  It should be simple to adapt this example to other
+operating systems and versions of Python.
+
+::
+
+    # Make sure you've got nose installed
+    $ pip3 install nose
+
+    # Run tests
+    $ nosetests-3.3 --with-xunit
+
 .. _Cedexis:
 
 About Cedexis
@@ -165,5 +180,5 @@ Internet-connected apps, for every user on the globe.
 Please visit us at `www.cedexis.com`_.
 
 .. _`www.cedexis.com`: http://www.cedexis.com
-
+.. _`nose`: https://nose.readthedocs.org/en/latest/
 
