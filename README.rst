@@ -14,10 +14,23 @@ call and the command line tool.
 Installation
 ============
 
+Using pip
+---------
+
 The preferred method on platforms that support it is to install the package
 using pip::
 
     $ pip install cedexis.radar
+
+From source
+-----------
+
+You can also install the package from source::
+
+    $ cd /tmp
+    $ git clone https://github.com/cedexis/cedexis.radar
+    $ cd cedexis.radar
+    $ python setup.py install
 
 Command Line Tool
 =================

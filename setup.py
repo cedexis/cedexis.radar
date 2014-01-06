@@ -76,7 +76,7 @@ setup_kwargs = {
         'rtt',
         'mobile',
     ],
-    'url': 'https://github.com/cedexis/python-radar',
+    'url': 'https://github.com/cedexis/cedexis.radar',
     'author': 'Jacob Wan',
     'author_email': 'jacob@wildlemur.com',
     'license': 'MIT',

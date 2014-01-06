@@ -90,7 +90,17 @@ class Probe(object):
 
     def measure(self, session_info):
         """Do measurement and return report data"""
-        #request = self.make_request(session_info)
+
+        def get_elapsed():
+            stop = stopwatch()
+            logger.debug('Start: %s; Stop: %s', start, stop)
+            elapsed = stop - start
+            #logger.debug('Elapsed: %s seconds', elapsed)
+            elapsed *= 1000
+            elapsed = int(round(elapsed))
+            logger.debug('Elapsed: %s milliseconds', elapsed)
+            return elapsed
+
         result = {
             'p_o_zid': self.__provider['p_o_zid'],
             'p_o_cid': self.__provider['p_o_cid'],
@@ -105,7 +115,7 @@ class Probe(object):
         try:
             stopwatch = time.perf_counter
         except AttributeError:
-            # Python 2
+            # Python <3.3
             stopwatch = time.time
 
         # Setup initial request
@@ -123,9 +133,7 @@ class Probe(object):
             query_string,
             probe_url_parts.netloc
         )
-        logger.debug('Message: %s', message)
-        logger.debug('Message type: %s', type(message))
-
+        logger.debug('Sending message:\n%s', message)
         try:
             if self.is_cold:
                 # Start timer for cold probe
@@ -165,9 +173,8 @@ class Probe(object):
                     response_text = ''.join(response_parts)
 
                 match = re.search(re_status, response_text)
-                logger.debug('match: %s', match.groups())
                 if ok == match.group(1):
-                    elapsed = int(1000 * (stopwatch() - start))
+                    elapsed = get_elapsed()
                     logger.debug('Time elapsed: %s', elapsed)
                 elif not match.group(1) in [ found, see_other, temp_redirect ]:
                     raise session.errors.UnexpectedHttpStatusError(
@@ -181,7 +188,7 @@ class Probe(object):
                         with cedexis.radar.session.closing_urlopen(request, timeout=7) as f:
                             response_text = f.read()
                             # Get elapsed time in milliseconds
-                            elapsed = int(1000 * (stopwatch() - start))
+                            elapsed = get_elapsed()
                         logger.debug('Time elapsed: %s', elapsed)
                     except url_error:
                         result['status'] = 'error'
@@ -274,7 +281,10 @@ def measure_provider(session_info, data):
             elif probe.is_uni_jsonp:
                 probe.get_uni_jsonp(session_info)
             else:
-                result.append(probe.measure(session_info))
+                measurement_result = probe.measure(session_info)
+                result.append(measurement_result)
+                if 'success' != measurement_result['status']:
+                    break
         except cedexis.radar.session.errors.InvalidThroughputFileSizeError:
             break
         except cedexis.radar.session.errors.UnexpectedHttpStatusError as e:

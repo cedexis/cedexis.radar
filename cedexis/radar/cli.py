@@ -8,11 +8,24 @@ import os
 import logging
 import logging.config
 
+def update_python_path():
+    source_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    sys.path.insert(1, source_dir)
+
 try:
-    FileNotFoundError()
-    from cedexis.radar.python3.cli import read_config as read_config_ex
-except:
-    from cedexis.radar.python2.cli import read_config as read_config_ex
+    try:
+        FileNotFoundError()
+        from cedexis.radar.python3.cli import read_config as read_config_ex
+    except:
+        from cedexis.radar.python2.cli import read_config as read_config_ex
+except ImportError:
+    update_python_path()
+    # ...and try again
+    try:
+        FileNotFoundError()
+        from cedexis.radar.python3.cli import read_config as read_config_ex
+    except:
+        from cedexis.radar.python2.cli import read_config as read_config_ex
 
 logger = logging.getLogger(__name__)
 
@@ -115,3 +128,6 @@ def main():
         args.tracer,
         args.provider_id,
     )
+
+if __name__ == '__main__':
+    main()
