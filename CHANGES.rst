@@ -1,6 +1,11 @@
 Changes
 =======
 
+0.1.3
+-----
+
+- Log warnings if any timeouts or exceptions occur.
+
 0.1.2
 -----
 

@@ -190,18 +190,21 @@ class Probe(object):
                             # Get elapsed time in milliseconds
                             elapsed = get_elapsed()
                         logger.debug('Time elapsed: %s', elapsed)
-                    except url_error:
+                    except url_error as e:
                         result['status'] = 'error'
+                        logger.warning('Encountered exception: %s', e)
 
                 logger.debug('Probe response text length: %s', len(response_text))
                 #logger.debug('Probe response text: %s', response_text.decode('utf-8'))
                 if 'success' == result['status']:
                     if 6000 <= elapsed:
                         result['status'] = 'timeout'
+                        logger.warning('Timeout occurred')
                     else:
                         result['measurement'] = self.calculate_throughput(elapsed) if self.is_throughput else elapsed
-        except socket.timeout:
+        except socket.timeout as e:
             result['status'] = 'error'
+            logger.warning('Encountered exception: %s', e)
 
         if 'success' != result['status']:
             # Stop processing this provider
