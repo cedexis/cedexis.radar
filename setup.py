@@ -2,6 +2,7 @@
 from setuptools import setup, find_packages
 import os
 import re
+import tempfile
 
 def read_version():
     source_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'cedexis/radar/__init__.py')
@@ -39,6 +40,11 @@ long_description = '\n\n'.join([
     read_file('README.rst'),
     read_file('CHANGES.rst'),
 ])
+
+temp_file_handle, temp_file_path = tempfile.mkstemp(suffix='.rst')
+with open(temp_file_path, 'w') as fp:
+    fp.write(long_description)
+print('PyPI documentation written to: {}'.format(temp_file_path))
 
 # See http://docs.python.org/3.3/distutils/apiref.html#module-distutils.core
 # for help with setup keyword arguments

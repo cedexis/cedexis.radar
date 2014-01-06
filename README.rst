@@ -41,9 +41,6 @@ a shim for the "main" function in the cedexis.radar.cli module.
 Usage
 -----
 
-Basic usage simply requires a Cedexis customer id, which you specify using
-the --customer-id/-c argument.
-
 Example::
 
     $ cedexis-radar-cli -c 10660
@@ -109,6 +106,10 @@ setup verbose output to a file and reduced output to the console.
 ::
 
     {
+        "customer": {
+            "zone_id": 1,
+            "customer_id": 10660
+        },
         "logging": {
             "version": 1,
             "disable_existing_loggers": false,

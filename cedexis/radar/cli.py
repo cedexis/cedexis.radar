@@ -63,15 +63,13 @@ def main():
         '--zone-id',
         '-z',
         type=int,
-        default=1,
-        help='Your Cedexis Zone ID (defaults to 1)',
+        help='Your Cedexis Zone ID',
     )
 
     parser.add_argument(
         '--customer-id',
         '-c',
         type=int,
-        required=True,
         help='Your Cedexis Customer ID',
     )
 
@@ -120,9 +118,30 @@ def main():
     logger.info('Config file used: %s', config_file_path)
     logger.info('Command line args: %s', args)
 
+    # Sensible defaults
+    zone_id = 1
+    customer_id = None
+
+    # Default zone and customer ids to what's in the config file but
+    # allow the command line arguments to override them
+    try:
+        zone_id = config['customer']['zone_id']
+        customer_id = config['customer']['customer_id']
+    except KeyError:
+        pass
+
+    if not args.zone_id is None:
+        zone_id = args.zone_id
+    if not args.customer_id is None:
+        customer_id = args.customer_id
+    if zone_id is None or customer_id is None:
+        raise Exception('Zone and customer id must be specified either in the'
+            ' config file or using the --zone-id/-z and --customer-id/-c'
+            ' command line arguments.')
+
     cedexis.radar.run_session(
-        args.zone_id,
-        args.customer_id,
+        zone_id,
+        customer_id,
         args.api_key,
         args.secure,
         args.tracer,

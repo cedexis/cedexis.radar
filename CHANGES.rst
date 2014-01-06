@@ -1,6 +1,13 @@
 Changes
 =======
 
+0.1.2
+-----
+
+**cedexis-radar-cli**
+
+- Support setting zone id and customer id in the configuration file.
+
 0.1.1-2
 -------
 
