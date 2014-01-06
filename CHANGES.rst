@@ -1,6 +1,13 @@
 Changes
 =======
 
+0.1.1-2
+-------
+
+- Minor refactoring
+
+- Support running cedexis-radar-cli directly
+
 0.1.1-1
 -------
 
