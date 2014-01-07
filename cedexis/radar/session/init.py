@@ -16,6 +16,9 @@ import string
 import datetime
 import time
 import re
+import logging
+
+logger = logging.getLogger(__name__)
 
 import cedexis.radar
 import cedexis.radar.session
@@ -53,6 +56,7 @@ def do_init(session_info):
     )
 
     url = urlunparse(parts)
+    logger.debug('Init URL: %s', url)
 
     user_agent_string = cedexis.radar.session.make_ua_string(
         session_info['zone_id'],
