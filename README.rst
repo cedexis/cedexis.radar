@@ -138,9 +138,6 @@ setup verbose output to a file and reduced output to the console.
                 "level": "DEBUG",
                     "handlers": [ "console", "file" ]
             }
-        },
-        "app_settings": {
-            "listen_ports": [ 49800, 49801, 49802, 49803 ]
         }
     }
 
