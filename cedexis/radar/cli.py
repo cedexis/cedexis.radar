@@ -30,6 +30,7 @@ except ImportError:
 logger = logging.getLogger(__name__)
 
 import cedexis.radar
+import cedexis.radar._crlogging
 
 def read_config(config_file_path):
     default_config = {
