@@ -1,10 +1,17 @@
 Changes
 =======
 
+0.1.4-1
+-------
+
+- cedexis.radar._crlogging.TimestampedFileHandler accepts the template for a
+  complete path (not just the filename).  This provides greater control over
+  the directory structure and filenames produced.
+
 0.1.4
 -----
 
-- Provide cedexis.radar._crlogging.TimestampedLogHandler class.  This class
+- Provide cedexis.radar._crlogging.TimestampedFileHandler class.  This class
   allows you to isolate session log data in separate files.
 
 0.1.3
