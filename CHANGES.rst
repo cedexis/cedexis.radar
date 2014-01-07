@@ -1,6 +1,12 @@
 Changes
 =======
 
+0.1.4
+-----
+
+- Provide cedexis.radar._crlogging.TimestampedLogHandler class.  This class
+  allows you to isolate session log data in separate files.
+
 0.1.3
 -----
 
