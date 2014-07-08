@@ -51,7 +51,7 @@ def send_reports(session_info, data):
 
         parts = (
             'https' if session_info['secure'] else 'http',
-            'report.init.cedexis-radar.net',
+            'reports.cedexis.com' if session_info['report_server'] is None else session_info['report_server'],
             '/'.join(path_parts),
             '',
             query_string,

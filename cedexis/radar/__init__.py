@@ -27,7 +27,7 @@ __sampler_minor_version__ = 1
 __sampler_micro_version__ = 4
 __version_suffix__ = '-1'
 
-def run_session(zone_id, customer_id, api_key='sandbox', secure=False, tracer=None, provider_id=None, strict=False):
+def run_session(zone_id, customer_id, api_key='sandbox', secure=False, tracer=None, provider_id=None, strict=False, report_server='reports.cedexis.com'):
     """Run a Radar session"""
     session_info = {
         'zone_id': zone_id,
@@ -36,6 +36,7 @@ def run_session(zone_id, customer_id, api_key='sandbox', secure=False, tracer=No
         'secure': secure,
         'tracer': tracer,
         'strict': False,
+        'report_server': report_server
     }
 
     providers_measured = 0

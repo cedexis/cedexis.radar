@@ -55,6 +55,10 @@ def read_config(config_file_path):
             }
         }
     }
+
+    if config_file_path is None:
+        return default_config
+
     return read_config_ex(config_file_path, default_config)
 
 def main():
@@ -107,10 +111,19 @@ def main():
         const='',
     )
 
+    parser.add_argument(
+        '--report-server',
+        '-r',
+    )
+
     args = parser.parse_args()
 
     env_config_file = os.getenv('CEDEXIS_RADAR_CONFIG')
-    config_file_path = os.path.expanduser(env_config_file if args.config_file is None else args.config_file)
+    config_file_path = None
+    if not env_config_file is None:
+        config_file_path = os.path.expanduser(env_config_file)
+    elif not args.config_file is None:
+        config_file_path = os.path.expanduser(args.config_file)
     config = read_config(config_file_path)
 
     # Setup logging
@@ -147,6 +160,8 @@ def main():
         args.secure,
         args.tracer,
         args.provider_id,
+        False,
+        args.report_server,
     )
 
 if __name__ == '__main__':
