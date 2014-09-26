@@ -179,4 +179,3 @@ Please visit us at `www.cedexis.com`_.
 
 .. _`www.cedexis.com`: http://www.cedexis.com
 .. _`nose`: https://nose.readthedocs.org/en/latest/
-

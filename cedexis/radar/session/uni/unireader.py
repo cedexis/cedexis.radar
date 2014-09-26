@@ -27,7 +27,7 @@ class UniReader(object):
             uni = self.try_get_uni(': '.join(pair))
             if not uni is None:
                 return uni
-        raise session.errors.UniNotFoundError()
+        raise cedexis.radar.session.errors.UniNotFoundError()
 
 class BrokenUniReader(UniReader):
 

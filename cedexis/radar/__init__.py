@@ -24,7 +24,7 @@ import cedexis.radar.session.report
 
 __sampler_major_version__ = 0
 __sampler_minor_version__ = 1
-__sampler_micro_version__ = 5
+__sampler_micro_version__ = 6
 __version_suffix__ = ''
 
 def run_session(zone_id, customer_id, api_key='sandbox', secure=False, tracer=None, provider_id=None, strict=False, report_server='reports.cedexis.com'):
@@ -49,7 +49,7 @@ def run_session(zone_id, customer_id, api_key='sandbox', secure=False, tracer=No
             cedexis.radar.session.report.send_reports(session_info, report_data)
             providers_measured += 1
 
-    except (url_error, Exception) as e:
-        logger.error('Error in session; %s', e)
+    # except (url_error, Exception) as e:
+    #     logger.error('Error in session; %s', e)
     finally:
         logger.info('%s providers measured', providers_measured)

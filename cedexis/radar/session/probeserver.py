@@ -57,6 +57,7 @@ def get_providers(session_info, provider_id):
         )
 
         url = urlunparse(parts)
+        logger.debug('Probeserer URL: %s', url)
 
         user_agent_string = cedexis.radar.session.make_ua_string(
             session_info['zone_id'],
@@ -72,12 +73,16 @@ def get_providers(session_info, provider_id):
                 logger.error('Error communicating with ProbeServer: %s', e)
                 return
 
-        json_result = json.loads(response_text)
+        logger.debug('Probeserver response: %s', response_text)
         try:
+            json_result = json.loads(response_text)
             json_result['p']['p'] = reorder_for_uni(json_result['p']['p'])
             provider_ids.append(str(json_result['p']['i']))
             yield json_result
         except KeyError:
+            return
+        except ValueError:
+            logger.info('Error from Probeserver: {}'.format(e))
             return
 
         if not provider_id is None:

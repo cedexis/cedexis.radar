@@ -39,7 +39,7 @@ def send_reports(session_info, data):
         elif 'success' == report['status']:
             path_parts.append('0')
         else:
-            raise session.errors.UnexpectedStatusError()
+            raise cedexis.radar.session.errors.UnexpectedStatusError()
 
         path_parts.append(str(report['measurement']))
         path_parts.append(report['uni'])

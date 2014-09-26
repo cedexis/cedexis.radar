@@ -1,6 +1,11 @@
 Changes
 =======
 
+0.1.6
+-----
+
+- Fix error handling bug
+
 0.1.5
 -----
 

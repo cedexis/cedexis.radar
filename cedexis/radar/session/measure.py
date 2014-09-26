@@ -161,6 +161,7 @@ class Probe(object):
                 found = b'302'
                 see_other = b'303'
                 temp_redirect = b'307'
+                not_found = b'404'
                 try:
                     response_text = b''.join(response_parts)
                 except TypeError:
@@ -170,14 +171,18 @@ class Probe(object):
                     found = '302'
                     see_other = '303'
                     temp_redirect = '307'
+                    not_found = '404'
                     response_text = ''.join(response_parts)
 
                 match = re.search(re_status, response_text)
                 if ok == match.group(1):
                     elapsed = get_elapsed()
                     logger.debug('Time elapsed: %s', elapsed)
+                elif not_found == match.group(1):
+                    elapse = 0
+                    result['status'] = 'error'
                 elif not match.group(1) in [ found, see_other, temp_redirect ]:
-                    raise session.errors.UnexpectedHttpStatusError(
+                    raise cedexis.radar.session.errors.UnexpectedHttpStatusError(
                         int(match.group(1)), match.group(2).decode('utf-8'))
                 else:
                     # Fall back to urllib to handle redirect (should be rare)
@@ -214,7 +219,7 @@ class Probe(object):
 
     def calculate_throughput(self, elapsed):
         if 0 == self.__spec['s']:
-            raise session.errors.InvalidThroughputFileSizeError()
+            raise cedexis.radar.session.errors.InvalidThroughputFileSizeError()
         result = 8 * 1000 * self.__spec['s'] // elapsed
         return result
 
