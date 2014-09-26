@@ -44,7 +44,7 @@ def do_init(session_info):
         's' if session_info['secure'] else 'i'
     )
 
-    path = '/i1/{}/{}/jsonp'.format(timestamp, transaction_id)
+    path = '/i1/{}/{}/xml'.format(timestamp, transaction_id)
     cache_buster = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(30))
     parts = (
         'https' if session_info['secure'] else 'http',
@@ -67,5 +67,9 @@ def do_init(session_info):
     request = Request(url, headers={ 'User-Agent': user_agent_string })
     with cedexis.radar.session.closing_urlopen(request, timeout=20) as f:
         response_text = f.read().decode()
-    matches = re.search("requestSignature:'([^']+)", response_text)
-    return matches.groups()[0]
+    logger.debug('Init response: %s', response_text)
+    matches = re.search("requestSignature>([^<]+)", response_text)
+    if not matches is None:
+        logger.debug('Request signature: %s', matches.groups()[0])
+        return matches.groups()[0]
+    raise Exception('Init request failed')
