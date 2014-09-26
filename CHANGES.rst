@@ -1,6 +1,11 @@
 Changes
 =======
 
+0.1.5
+-----
+
+- Init response handling.
+
 0.1.4-1
 -------
 
