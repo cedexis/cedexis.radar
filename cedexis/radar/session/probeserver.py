@@ -57,7 +57,7 @@ def get_providers(session_info, provider_id):
         )
 
         url = urlunparse(parts)
-        logger.debug('Probeserer URL: %s', url)
+        logger.debug('Probeserver URL: %s', url)
 
         user_agent_string = cedexis.radar.session.make_ua_string(
             session_info['zone_id'],

@@ -1,10 +1,15 @@
 Changes
 =======
 
+0.1.7
+-----
+
+- Another error handling bug.
+
 0.1.6
 -----
 
-- Fix error handling bug
+- Fix error handling bug.
 
 0.1.5
 -----
