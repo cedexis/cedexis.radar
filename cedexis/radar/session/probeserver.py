@@ -81,7 +81,7 @@ def get_providers(session_info, provider_id):
             yield json_result
         except KeyError:
             return
-        except ValueError:
+        except ValueError as e:
             logger.info('Error from Probeserver: {}'.format(e))
             return
 
