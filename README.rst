@@ -11,6 +11,8 @@ To make practical use of its features, you should sign up for a free Cedexis_
 account.  Your Cedexis customer id is a required argument to the main API
 call and the command line tool.
 
+Requires: **Python 2.7+**
+
 Installation
 ============
 
