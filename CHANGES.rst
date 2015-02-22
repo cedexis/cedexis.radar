@@ -1,6 +1,14 @@
 Changes
 =======
 
+0.1.8
+-----
+
+- Declare requirement for Python 2.7+ in README.rst
+
+- Add a Dockerfile to demonstrate that it can work on Ubuntu 10.04, although a
+  more updated OS version is recommended.
+
 0.1.7
 -----
 
