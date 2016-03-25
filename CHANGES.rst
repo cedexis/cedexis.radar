@@ -1,6 +1,11 @@
 Changes
 =======
 
+0.2.0
+-----
+
+- Update to work with Probot and image test objects.
+
 0.1.8
 -----
 
