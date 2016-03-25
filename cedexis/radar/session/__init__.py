@@ -16,8 +16,8 @@ logger = logging.getLogger(__name__)
 
 import cedexis.radar
 
-def make_ua_string(zone_id, customer_id, api_key, tracer):
-    return 'PyRadar/{}.{}.{} ({} {}; {}) {}/{}/{}{}'.format(
+def make_ua_string(zone_id, customer_id, tracer):
+    return 'PyRadar/{}.{}.{} ({} {}; {}) {}/{}{}'.format(
         cedexis.radar.__sampler_major_version__,
         cedexis.radar.__sampler_minor_version__,
         cedexis.radar.__sampler_micro_version__,
@@ -26,7 +26,6 @@ def make_ua_string(zone_id, customer_id, api_key, tracer):
         platform.platform(),
         zone_id,
         customer_id,
-        api_key,
         '' if tracer is None else '/{}'.format(tracer.strip())
     )
 

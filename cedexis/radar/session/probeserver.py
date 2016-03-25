@@ -13,77 +13,77 @@ import string
 import json
 import sys
 import logging
+from datetime import datetime
+import calendar
+from pprint import pprint
 
 logger = logging.getLogger(__name__)
 
 import cedexis.radar.session
-
-def reorder_for_uni(probes):
-    new_list = []
-    for i in probes:
-        if 'uni' != i['a']:
-            new_list.append(i)
-        else:
-            new_list.insert(0, i)
-    return new_list
+import cedexis.radar.provider
 
 def get_providers(session_info, provider_id):
-
-    domain = 'probes.cedexis.com'
+    pprint(session_info)
+    domain = 'radar.cedexis.com'
     provider_ids = []
 
-    while True:
-        parts = {
-            'z': session_info['zone_id'],
-            'c': session_info['customer_id'],
-            'fmt': 'json',
-            'rnd': ''.join(random.choice(string.ascii_letters + string.digits) for i in range(30))
-        }
+    now = datetime.utcnow();
+    ts = calendar.timegm(now.utctimetuple())
 
-        if not provider_id is None:
-            parts['pid'] = provider_id
-        elif 0 < len(provider_ids):
-            parts['i'] = ','.join(provider_ids)
+    query_string_parts = {
+        'imagesok': '1',
+        't': '1'
+    }
+    if not provider_id is None:
+        query_string_parts['providersSet'] = provider_id
+    elif 0 < len(provider_ids):
+        query_string_parts['providersSet'] = ','.join(provider_ids)
 
-        query_string = urlencode(parts)
+    query_string = urlencode(query_string_parts)
+    path = '/{}/{}/radar/{}/{}/providers.json'.format(
+        session_info['zone_id'],
+        session_info['customer_id'],
+        ts,
+        ''.join(random.choice(string.ascii_letters + string.digits) for i in range(20))
+    )
 
-        parts = (
-            'https' if session_info['secure'] else 'http',
-            domain,
-            '',
-            '',
-            query_string,
-            '',
-        )
+    parts = (
+        'https' if session_info['secure'] else 'http',
+        domain,
+        path,
+        '',
+        query_string,
+        '',
+    )
 
-        url = urlunparse(parts)
-        logger.debug('Probeserver URL: %s', url)
+    url = urlunparse(parts)
+    logger.debug('providers.json URL: %s', url)
 
-        user_agent_string = cedexis.radar.session.make_ua_string(
+    user_agent_string = cedexis.radar.session.make_ua_string(
+        session_info['zone_id'],
+        session_info['customer_id'],
+        session_info['tracer'],
+    )
+    request = Request(url, headers={ 'User-Agent': user_agent_string })
+    with cedexis.radar.session.closing_urlopen(request) as f:
+        try:
+            response_text = f.read().decode()
+        except Exception as e:
+            logger.error('providers.json communication error: %s', e)
+            return
+
+    logger.debug('providers.json content: %s', response_text)
+    result = []
+    for i in json.loads(response_text):
+        provider = cedexis.radar.provider.Provider(
+            i,
             session_info['zone_id'],
             session_info['customer_id'],
-            session_info['api_key'],
+            session_info['transaction_id'],
+            session_info['request_signature'],
             session_info['tracer'],
+            session_info['secure'],
+            session_info['report_server']
         )
-        request = Request(url, headers={ 'User-Agent': user_agent_string })
-        with cedexis.radar.session.closing_urlopen(request) as f:
-            try:
-                response_text = f.read().decode()
-            except Exception as e:
-                logger.error('Error communicating with ProbeServer: %s', e)
-                return
-
-        logger.debug('Probeserver response: %s', response_text)
-        try:
-            json_result = json.loads(response_text)
-            json_result['p']['p'] = reorder_for_uni(json_result['p']['p'])
-            provider_ids.append(str(json_result['p']['i']))
-            yield json_result
-        except KeyError:
-            return
-        except ValueError as e:
-            logger.info('Error from Probeserver: {}'.format(e))
-            return
-
-        if not provider_id is None:
-            return
+        result.append(provider)
+    return result

@@ -161,7 +161,7 @@ operating systems and versions of Python.
     $ pip3 install nose
 
     # Run tests
-    $ nosetests-3.3 --with-xunit
+    $ nosetests --with-xunit
 
 .. _Cedexis:
 

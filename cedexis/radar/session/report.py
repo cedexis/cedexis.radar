@@ -65,7 +65,6 @@ def send_reports(session_info, data):
         user_agent_string = cedexis.radar.session.make_ua_string(
             session_info['zone_id'],
             session_info['customer_id'],
-            session_info['api_key'],
             session_info['tracer'],
         )
         logger.debug('User agent: %s', user_agent_string)
