@@ -24,6 +24,10 @@ using pip::
 
     $ pip install cedexis.radar
 
+.. tip::
+
+   On some platforms, you make need to preface this command with :code:`sudo -H`
+
 From source
 -----------
 
