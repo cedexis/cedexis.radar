@@ -26,7 +26,7 @@ using pip::
 
 .. tip::
 
-   On some platforms, you make need to preface this command with :code:`sudo -H`
+   On some platforms, you make need to preface this command with :code:`sudo -H`.
 
 From source
 -----------
