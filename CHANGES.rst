@@ -1,6 +1,11 @@
 Changes
 =======
 
+0.3.0
+-----
+
+- Support running sessions repeatedly.
+
 0.2.0
 -----
 
