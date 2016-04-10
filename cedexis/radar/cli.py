@@ -137,6 +137,11 @@ def main():
         type=int,
     )
 
+    parser.add_argument(
+        '--repeat-delay',
+        type=int,
+    )
+
     args = parser.parse_args()
     print(args)
 
@@ -150,12 +155,15 @@ def main():
     else:
         uses_default_config = True
     config = read_config(config_file_path)
-    if uses_default_config and args.verbose:
-        config['logging']['handlers']['console']['level'] = 'DEBUG'
-        config['logging']['root']['level'] = 'DEBUG'
+    if uses_default_config:
+        if args.verbose:
+            config['logging']['handlers']['console']['level'] = 'DEBUG'
+            config['logging']['root']['level'] = 'DEBUG'
         config['run_continuously'] = args.continuous
         if not args.max_runs is None:
             config['max_runs'] = args.max_runs
+        if not args.repeat_delay is None:
+            config['repeat_delay'] = args.repeat_delay
 
     # Setup logging
     logging.config.dictConfig(config['logging'])
@@ -208,7 +216,7 @@ def main():
             logger.debug('Stopping because max number of runs was reached')
             keepGoing = False
         else:
-            logger.debug('Sleeping for {} seconds'.format(config['repeat_delay']))
+            logger.info('Sleeping for {} seconds'.format(config['repeat_delay']))
             time.sleep(config['repeat_delay'])
 
 if __name__ == '__main__':

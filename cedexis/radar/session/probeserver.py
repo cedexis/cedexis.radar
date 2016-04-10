@@ -15,7 +15,6 @@ import sys
 import logging
 from datetime import datetime
 import calendar
-from pprint import pprint
 
 logger = logging.getLogger(__name__)
 
@@ -23,7 +22,6 @@ import cedexis.radar.session
 import cedexis.radar.provider
 
 def get_providers(session_info, provider_id):
-    pprint(session_info)
     domain = 'radar.cedexis.com'
     provider_ids = []
 
