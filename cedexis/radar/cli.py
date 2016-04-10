@@ -112,7 +112,6 @@ def main():
         '--config-file',
         '-f',
         nargs='?',
-        const='',
     )
 
     parser.add_argument(
@@ -159,11 +158,14 @@ def main():
         if args.verbose:
             config['logging']['handlers']['console']['level'] = 'DEBUG'
             config['logging']['root']['level'] = 'DEBUG'
-        config['run_continuously'] = args.continuous
-        if not args.max_runs is None:
-            config['max_runs'] = args.max_runs
-        if not args.repeat_delay is None:
-            config['repeat_delay'] = args.repeat_delay
+
+    config['run_continuously'] = args.continuous
+    if not args.max_runs is None:
+        config['max_runs'] = args.max_runs
+    if not 'repeat_delay' in config:
+        config['repeat_delay'] = 600
+    if not args.repeat_delay is None:
+        config['repeat_delay'] = args.repeat_delay
 
     # Setup logging
     logging.config.dictConfig(config['logging'])
@@ -193,6 +195,7 @@ def main():
             ' command line arguments.')
 
     logger.debug('Configuration:\n' + pformat(config))
+    # print(pformat(config))
 
     keepGoing = True
     runs = 0
