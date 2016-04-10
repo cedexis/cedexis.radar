@@ -220,7 +220,10 @@ def main():
             keepGoing = False
         else:
             logger.info('Sleeping for {} seconds'.format(config['repeat_delay']))
-            time.sleep(config['repeat_delay'])
+            try:
+                time.sleep(config['repeat_delay'])
+            except KeyboardInterrupt:
+                sys.exit()
 
 if __name__ == '__main__':
     main()

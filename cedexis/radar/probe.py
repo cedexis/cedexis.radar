@@ -15,6 +15,7 @@ import logging
 from pprint import pprint
 import time
 import socket
+import sys
 
 logger = logging.getLogger(__name__)
 
@@ -96,6 +97,8 @@ class Probe(object):
             if isinstance(e.reason, socket.timeout):
                 result_code = 1
             print(e, url)
+        except KeyboardInterrupt:
+            sys.exit()
         finally:
             if not f is None:
                 f.close()
@@ -151,12 +154,15 @@ class Probe(object):
             'User-Agent': user_agent_string
         }
         request = Request(url, headers=headers)
+        f = None
         try:
             f = urlopen(request)
             content = f.read()
             # print(content)
         except url_error as e:
             print(e, url)
+        except KeyboardInterrupt:
+            sys.exit()
         finally:
             if not f is None:
                 f.close()
