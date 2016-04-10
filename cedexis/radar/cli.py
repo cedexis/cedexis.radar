@@ -142,7 +142,7 @@ def main():
     )
 
     args = parser.parse_args()
-    print(args)
+    # print(args)
 
     env_config_file = os.getenv('CEDEXIS_RADAR_CONFIG')
     config_file_path = None
