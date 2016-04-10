@@ -24,7 +24,7 @@ import cedexis.radar.session.probeserver
 # import cedexis.radar.session.report
 
 __sampler_major_version__ = 0
-__sampler_minor_version__ = 2
+__sampler_minor_version__ = 3
 __sampler_micro_version__ = 0
 __version_suffix__ = ''
 
