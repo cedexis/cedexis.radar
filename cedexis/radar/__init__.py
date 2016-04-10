@@ -25,7 +25,7 @@ import cedexis.radar.session.probeserver
 
 __sampler_major_version__ = 0
 __sampler_minor_version__ = 3
-__sampler_micro_version__ = 0
+__sampler_micro_version__ = 1
 __version_suffix__ = ''
 
 def run_session(zone_id, customer_id, api_key='sandbox', secure=False, tracer=None, provider_id=None, strict=False, report_server='reports.cedexis.com'):

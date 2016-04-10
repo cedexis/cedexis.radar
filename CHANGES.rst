@@ -1,6 +1,11 @@
 Changes
 =======
 
+0.3.1
+-----
+
+- Better support for keyboard interrupt.
+
 0.3.0
 -----
 
