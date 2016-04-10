@@ -7,6 +7,8 @@ import sys
 import os
 import logging
 import logging.config
+from pprint import pformat
+import time
 
 def update_python_path():
     source_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -53,7 +55,9 @@ def read_config(config_file_path):
                 'level': 'INFO',
                 'handlers': [ 'console', ],
             }
-        }
+        },
+        'run_continuously': False,
+        'repeat_delay': 600
     }
 
     if config_file_path is None:
@@ -122,7 +126,19 @@ def main():
         action='store_true',
     )
 
+    parser.add_argument(
+        '--continuous',
+        action='store_true',
+    )
+
+    parser.add_argument(
+        '--max-runs',
+        '-m',
+        type=int,
+    )
+
     args = parser.parse_args()
+    print(args)
 
     env_config_file = os.getenv('CEDEXIS_RADAR_CONFIG')
     config_file_path = None
@@ -137,6 +153,9 @@ def main():
     if uses_default_config and args.verbose:
         config['logging']['handlers']['console']['level'] = 'DEBUG'
         config['logging']['root']['level'] = 'DEBUG'
+        config['run_continuously'] = args.continuous
+        if not args.max_runs is None:
+            config['max_runs'] = args.max_runs
 
     # Setup logging
     logging.config.dictConfig(config['logging'])
@@ -165,16 +184,32 @@ def main():
             ' config file or using the --zone-id/-z and --customer-id/-c'
             ' command line arguments.')
 
-    cedexis.radar.run_session(
-        zone_id,
-        customer_id,
-        args.api_key,
-        args.secure,
-        args.tracer,
-        args.provider_id,
-        False,
-        args.report_server,
-    )
+    logger.debug('Configuration:\n' + pformat(config))
+
+    keepGoing = True
+    runs = 0
+    while keepGoing:
+        cedexis.radar.run_session(
+            zone_id,
+            customer_id,
+            args.api_key,
+            args.secure,
+            args.tracer,
+            args.provider_id,
+            False,
+            args.report_server,
+        )
+        runs += 1
+
+        if not config['run_continuously']:
+            logger.debug('Stopping because continuous setting is false')
+            keepGoing = False
+        elif 'max_runs' in config and runs >= config['max_runs']:
+            logger.debug('Stopping because max number of runs was reached')
+            keepGoing = False
+        else:
+            logger.debug('Sleeping for {} seconds'.format(config['repeat_delay']))
+            time.sleep(config['repeat_delay'])
 
 if __name__ == '__main__':
     main()
