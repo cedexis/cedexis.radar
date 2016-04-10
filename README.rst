@@ -103,6 +103,10 @@ Full argument list:
 |                  | output to the screen.                   |
 +------------------+-----------------------------------------+
 | --continuous     | **RUN MULTIPLE RADAR SESSIONS**         |
+|                  |                                         |
+|                  | Causes the client to run Radar sessions |
+|                  | continuously with a configurable delay  |
+|                  | between each session.                   |
 +------------------+-----------------------------------------+
 | --repeat-delay   | **REPEAT DELAY**                        |
 |                  |                                         |
