@@ -102,6 +102,25 @@ Full argument list:
 |                  | specified, used to print detailed       |
 |                  | output to the screen.                   |
 +------------------+-----------------------------------------+
+| --continuous     | **RUN MULTIPLE RADAR SESSIONS**         |
++------------------+-----------------------------------------+
+| --repeat-delay   | **REPEAT DELAY**                        |
+|                  |                                         |
+|                  | Used with --continuous to specify the   |
+|                  | number of seconds to wait before        |
+|                  | starting the next Radar session.        |
+|                  |                                         |
+|                  | Defaults to 600 seconds (10 minutes)    |
++------------------+-----------------------------------------+
+| --max-runs       | **MAX NUMBER OF SESSIONS**              |
+|                  |                                         |
+|                  | Used with --continuous to specify the   |
+|                  | maximum number of Radar sessions to     |
+|                  | perform.                                |
+|                  |                                         |
+|                  | If unspecified, the process will        |
+|                  | repeat until terminated.                |
++------------------+-----------------------------------------+
 
 Configuration File
 ------------------
