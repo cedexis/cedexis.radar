@@ -51,7 +51,7 @@ def read_config(config_file_path):
             },
             'root': {
                 'level': 'INFO',
-                    'handlers': [ 'console', ],
+                'handlers': [ 'console', ],
             }
         }
     }
@@ -116,15 +116,27 @@ def main():
         '-r',
     )
 
+    parser.add_argument(
+        '--verbose',
+        '-v',
+        action='store_true',
+    )
+
     args = parser.parse_args()
 
     env_config_file = os.getenv('CEDEXIS_RADAR_CONFIG')
     config_file_path = None
+    uses_default_config = False
     if not env_config_file is None:
         config_file_path = os.path.expanduser(env_config_file)
     elif not args.config_file is None:
         config_file_path = os.path.expanduser(args.config_file)
+    else:
+        uses_default_config = True
     config = read_config(config_file_path)
+    if uses_default_config and args.verbose:
+        config['logging']['handlers']['console']['level'] = 'DEBUG'
+        config['logging']['root']['level'] = 'DEBUG'
 
     # Setup logging
     logging.config.dictConfig(config['logging'])

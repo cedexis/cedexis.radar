@@ -96,6 +96,12 @@ Full argument list:
 |                  |                                         |
 |                  | Path to a configuration file            |
 +------------------+-----------------------------------------+
+| --verbose/-v     | **VERBOSE CONSOLE OUTPUT**              |
+|                  |                                         |
+|                  | When no configuration file is           |
+|                  | specified, used to print detailed       |
+|                  | output to the screen.                   |
++------------------+-----------------------------------------+
 
 Configuration File
 ------------------
