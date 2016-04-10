@@ -14,6 +14,7 @@ import string
 import logging
 from pprint import pprint
 import time
+import socket
 
 logger = logging.getLogger(__name__)
 
@@ -87,11 +88,13 @@ class Probe(object):
         ok = True
         result_code = 0
         try:
-            f = urlopen(request)
+            f = urlopen(request, timeout=4)
             content = f.read()
         except url_error as e:
             ok = False
             result_code = 4
+            if isinstance(e.reason, socket.timeout):
+                result_code = 1
             print(e, url)
         finally:
             if not f is None:
@@ -108,6 +111,7 @@ class Probe(object):
                 result_code = 1
         logger.debug('Result code: {}, Measurement: {}'.format(result_code, measurement))
         self.send_report(result_code, measurement)
+        return ok
 
     def send_report(self, result_code, measurement):
         path_parts = [

@@ -52,5 +52,8 @@ class Provider(object):
 
     def measure(self):
         logger.debug('Inside Provider.measure')
-        while 0 < len(self.__probes):
-            self.__probes.popleft().measure()
+        no_error = True
+        while no_error and 0 < len(self.__probes):
+            no_error = self.__probes.popleft().measure()
+            if not no_error:
+                logger.debug('The last probe reported an error')
