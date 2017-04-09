@@ -2,6 +2,24 @@
 cedexis.radar
 =============
 
+Deprecation Warning
+===================
+
+As Cedexis concentrates efforts on improving the JavaScript client, we're
+deprecating the various native client implementations, including this one.
+The preferred approach is to run the JavaScript client in a web browser
+available to your platform.  For headless servers, we offer this example
+of executing Radar sessions using Xvfb and Firefox:
+
+https://github.com/cedexis/radar-runner/tree/master/Headless
+
+The main reason for this change is to improve the quality and consistency
+of Radar data by relying solely on the Navigation Timing and Resource Timing APIs
+provided by most modern browsers.
+
+Overview
+========
+
 This package provides a library that can be used to conduct Cedexis Radar
 measurements in any language that supports Python bindings.  It also
 provides a script that can be used to run a Radar session from the command
